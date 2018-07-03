@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,31 +11,35 @@ namespace apache_bench_dotnet_core_sample.Controllers
     [ApiController]
     public class ApacheBenchController : ControllerBase
     {
+        private readonly IHttpClientFactory _httpClientFactory;
+
+        public ApacheBenchController(IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory;
+        }
 
         [HttpGet("getsync")]
         public ActionResult GetSync(int id)
         {
+            HttpClient client = _httpClientFactory.CreateClient("cni");
+            var response = client.GetAsync("/downloads/Racers.xml").Result;
 
-            //IO işlemi yapıacal async için
-            long result = 0;
-            for (long i = 0; i < 1000000; i++)
-            {
-                result += i;
-            }
+            response.EnsureSuccessStatusCode();
+            string content = response.Content.ReadAsStringAsync().Result;
 
-            return Ok(result);
+            return Ok(content);
         }
 
         [HttpGet("getasync")]
         public async Task<ActionResult> GetAsync(int id)
         {
-            long result = 0;
-            for (long i = 0; i < 1000000; i++)
-            {
-                result += i;
-            }
+            HttpClient client = _httpClientFactory.CreateClient("cni");
+            var response = await client.GetAsync("/downloads/Racers.xml");
 
-            return Ok(result);
+            response.EnsureSuccessStatusCode();
+            string content = await response.Content.ReadAsStringAsync();
+
+            return Ok(content);
         }
     }
 }

@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/apache-bench-dotnet-load-test.dll",
+            "program": "${workspaceFolder}/bin/Debug/netcoreapp2.1/apache-bench-dotnet-core-load-test.dll",
             "args": [],
             "cwd": "${workspaceFolder}",
             "stopAtEntry": false,

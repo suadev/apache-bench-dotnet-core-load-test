@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/apache-bench-dotnet-load-test.csproj"
+                "${workspaceFolder}/apache-bench-dotnet-core-load-test.csproj"
             ],
             "problemMatcher": "$msCompile"
         }

@@ -26,6 +26,11 @@ namespace apache_bench_dotnet_core_sample
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddHttpClient("cni", client =>
+            {
+                client.BaseAddress = new Uri("https://www.cninnovation.com");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

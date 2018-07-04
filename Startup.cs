@@ -25,7 +25,7 @@ namespace apache_bench_dotnet_core_load_test
                 client.BaseAddress = new Uri("https://api.github.com/");
                 client.DefaultRequestHeaders.Add("Accept", "application/vnd.github.v3+json");
                 client.DefaultRequestHeaders.Add("User-Agent", "HttpClientFactoryTesting");
-                client.DefaultRequestHeaders.Add("Authorization", "token 054967e09aed0c2a81d02845558219e9b9c97800");
+                client.DefaultRequestHeaders.Add("Authorization", "<github OAuth access token here>");
             });
         }
 

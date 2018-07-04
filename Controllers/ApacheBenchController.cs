@@ -5,41 +5,40 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace apache_bench_dotnet_core_sample.Controllers
+namespace apache_bench_dotnet_core_load_test
 {
     [Route("api/apachebench")]
     [ApiController]
     public class ApacheBenchController : ControllerBase
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IGithubHttpClient _githubHttpClient;
 
-        public ApacheBenchController(IHttpClientFactory httpClientFactory)
+        public ApacheBenchController(IGithubHttpClient githubHttpClient)
         {
-            _httpClientFactory = httpClientFactory;
+            _githubHttpClient = githubHttpClient;
         }
 
         [HttpGet("getsync")]
-        public ActionResult GetSync(int id)
+        public ActionResult GetSync(string userName)
         {
-            HttpClient client = _httpClientFactory.CreateClient("cni");
-            var response = client.GetAsync("/downloads/Racers.xml").Result;
-
-            response.EnsureSuccessStatusCode();
-            string content = response.Content.ReadAsStringAsync().Result;
-
-            return Ok(content);
+            for (int i = 0; i < 5; i++)
+            {
+                _githubHttpClient.GetUserInfo(userName);
+            }
+            return Ok();
         }
 
         [HttpGet("getasync")]
-        public async Task<ActionResult> GetAsync(int id)
+        public async Task<ActionResult> GetAsync(string userName)
         {
-            HttpClient client = _httpClientFactory.CreateClient("cni");
-            var response = await client.GetAsync("/downloads/Racers.xml");
+            var taskList = new List<Task>();
+            for (int i = 0; i < 5; i++)
+            {
+                taskList.Add(_githubHttpClient.GetUserInfoAsync(userName));
+            }
 
-            response.EnsureSuccessStatusCode();
-            string content = await response.Content.ReadAsStringAsync();
-
-            return Ok(content);
+            await Task.WhenAll(taskList);
+            return Ok();
         }
     }
 }

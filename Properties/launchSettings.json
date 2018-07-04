@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "apache_bench_dotnet_core_sample": {
+    "apache_bench_dotnet_core_load_test": {
       "commandName": "Project",
       "launchBrowser": false,
       "launchUrl": "api/apachebench",
